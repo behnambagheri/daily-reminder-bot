@@ -2,6 +2,7 @@ import os
 import requests
 import schedule
 import time
+import logging
 from datetime import datetime
 import pytz
 from dotenv import load_dotenv
@@ -17,11 +18,21 @@ API_URL = os.getenv('API_URL')
 # Define the timezone (e.g., Asia/Tehran)
 timezone = pytz.timezone('Asia/Tehran')
 
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 # Function to send a message to Telegram
 def send_message(message):
-    url = f'{API_URL}{BOT_TOKEN}/sendMessage'
-    data = {'chat_id': CHAT_ID, 'text': message}
-    requests.post(url, data=data)
+    try:
+        url = f'{API_URL}{BOT_TOKEN}/sendMessage'
+        data = {'chat_id': CHAT_ID, 'text': message}
+        response = requests.post(url, data=data)
+        if response.status_code == 200:
+            logging.info(f"Message sent: {message}")
+        else:
+            logging.error(f"Failed to send message: {message}. Status code: {response.status_code}")
+    except Exception as e:
+        logging.error(f"Error sending message: {e}")
 
 # Custom function to check if the current time matches the scheduled time
 def is_time_correct(schedule_time):
@@ -31,56 +42,69 @@ def is_time_correct(schedule_time):
 # Meal reminder functions
 def remind_meal_1():
     if is_time_correct("12:00"):
+        logging.info("Reminding for first meal (1 hour before).")
         send_message("🍽 یک ساعت تا اولین وعده غذایی شما باقی مانده است. آماده شوید! (تخم مرغ نیمرو و بیکن)")
 
 def meal_1_time():
     if is_time_correct("13:00"):
+        logging.info("It's time for the first meal.")
         send_message("🍽 زمان اولین وعده غذایی! (تخم مرغ نیمرو و بیکن)")
 
 def remind_meal_2():
     if is_time_correct("16:00"):
+        logging.info("Reminding for second meal (1 hour before).")
         send_message("🍽 یک ساعت تا دومین وعده غذایی شما باقی مانده است. آماده شوید! (مرغ گریل شده و سبزیجات)")
 
 def meal_2_time():
     if is_time_correct("17:00"):
+        logging.info("It's time for the second meal.")
         send_message("🍽 زمان دومین وعده غذایی! (مرغ گریل شده و سبزیجات)")
 
 def remind_meal_3():
     if is_time_correct("20:00"):
+        logging.info("Reminding for third meal (1 hour before).")
         send_message("🍽 یک ساعت تا سومین وعده غذایی شما باقی مانده است. آماده شوید! (ماهی سالمون و آووکادو)")
 
 def meal_3_time():
     if is_time_correct("21:00"):
+        logging.info("It's time for the third meal.")
         send_message("🍽 زمان سومین وعده غذایی! (ماهی سالمون و آووکادو)")
 
 # Water and coffee reminder functions
 def remind_water():
+    logging.info("Reminding to drink water.")
     send_message("💧 لطفاً آب بنوشید و بدن خود را هیدراته نگه دارید.")
 
 def remind_coffee():
     if is_time_correct("10:00"):
+        logging.info("Reminding to have coffee.")
         send_message("☕️ وقت نوشیدن قهوه است!")
 
 # Supplement reminder functions
 def remind_vitamin_c():
     if is_time_correct("09:30"):
+        logging.info("Reminding to take Vitamin C.")
         send_message("💊 لطفاً قرص جوشان ویتامین C خود را مصرف کنید.")
 
 def remind_magnesium():
     if is_time_correct("14:00"):
+        logging.info("Reminding to take Magnesium.")
         send_message("💊 لطفاً قرص جوشان منیزیم خود را مصرف کنید.")
 
 def remind_vitamin_d():
     if is_time_correct("19:00"):
+        logging.info("Reminding to take Vitamin D.")
         send_message("💊 لطفاً قرص ویتامین D خود را مصرف کنید.")
 
 # Sleep and wake-up reminder functions
 def remind_sleep():
     if is_time_correct("00:00"):
+        logging.info("Reminding to go to sleep.")
         send_message("🛌 وقت خواب است. لطفاً ساعت 12 شب بخوابید.")
 
 def remind_wake_up():
     if is_time_correct("07:00"):
+        logging.info("Reminding to wake up.")
         send_message("⏰ وقت بیدار شدن است! لطفاً ساعت 7 صبح بیدار شوید.")
 
 # Schedule reminders
@@ -105,6 +129,7 @@ schedule.every().day.at("00:00").do(remind_sleep)
 schedule.every().day.at("07:00").do(remind_wake_up)
 
 # Main loop to run the schedule
+logging.info("DailyReminderBot started successfully.")
 while True:
     schedule.run_pending()
     time.sleep(1)
