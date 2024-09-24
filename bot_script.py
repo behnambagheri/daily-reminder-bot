@@ -32,27 +32,36 @@ def send_message(message):
 # Meal reminder functions
 def remind_meal_1():
     logging.info("Reminding for first meal (1 hour before).")
-    send_message("🍽 یک ساعت تا اولین وعده غذایی شما باقی مانده است. آماده شوید! (تخم مرغ نیمرو و بیکن)")
+    send_message("🍽 یک ساعت تا اولین وعده غذایی شما باقی مانده است. آماده شوید! (گوشت گاو گریل شده و سالاد اسفناج)")
 
 def meal_1_time():
     logging.info("It's time for the first meal.")
-    send_message("🍽 زمان اولین وعده غذایی! (تخم مرغ نیمرو و بیکن)")
+    send_message("🍽 زمان اولین وعده غذایی! (گوشت گاو گریل شده و سالاد اسفناج)")
 
 def remind_meal_2():
     logging.info("Reminding for second meal (1 hour before).")
-    send_message("🍽 یک ساعت تا دومین وعده غذایی شما باقی مانده است. آماده شوید! (مرغ گریل شده و سبزیجات)")
+    send_message("🍽 یک ساعت تا دومین وعده غذایی شما باقی مانده است. آماده شوید! (ماهی تن و سالاد کلم پیچ)")
 
 def meal_2_time():
     logging.info("It's time for the second meal.")
-    send_message("🍽 زمان دومین وعده غذایی! (مرغ گریل شده و سبزیجات)")
+    send_message("🍽 زمان دومین وعده غذایی! (ماهی تن و سالاد کلم پیچ)")
 
 def remind_meal_3():
     logging.info("Reminding for third meal (1 hour before).")
-    send_message("🍽 یک ساعت تا سومین وعده غذایی شما باقی مانده است. آماده شوید! (ماهی سالمون و آووکادو)")
+    send_message("🍽 یک ساعت تا سومین وعده غذایی شما باقی مانده است. آماده شوید! (گوشت قرمز و کلم بروکلی بخارپز)")
 
 def meal_3_time():
     logging.info("It's time for the third meal.")
-    send_message("🍽 زمان سومین وعده غذایی! (ماهی سالمون و آووکادو)")
+    send_message("🍽 زمان سومین وعده غذایی! (گوشت قرمز و کلم بروکلی بخارپز)")
+
+# Snack reminder functions
+def remind_snack_1():
+    logging.info("Reminding for the first snack.")
+    send_message("🍴 میان‌وعده: فندق و بادام (یک مشت کوچک)")
+
+def remind_snack_2():
+    logging.info("Reminding for the second snack.")
+    send_message("🍴 میان‌وعده: پنیر چدار و چند تکه تربچه")
 
 # Water and coffee reminder functions
 def remind_water():
@@ -85,13 +94,17 @@ def remind_wake_up():
     logging.info("Reminding to wake up.")
     send_message("⏰ وقت بیدار شدن است! لطفاً ساعت 7 صبح بیدار شوید.")
 
-# Schedule reminders
+# Schedule reminders for meals
 schedule.every().day.at("12:00").do(remind_meal_1)
 schedule.every().day.at("13:00").do(meal_1_time)
 schedule.every().day.at("16:00").do(remind_meal_2)
 schedule.every().day.at("17:00").do(meal_2_time)
 schedule.every().day.at("20:00").do(remind_meal_3)
 schedule.every().day.at("21:00").do(meal_3_time)
+
+# Schedule reminders for snacks
+schedule.every().day.at("15:30").do(remind_snack_1)
+schedule.every().day.at("19:00").do(remind_snack_2)
 
 # Water reminders every hour
 schedule.every().hour.at(":30").do(remind_water)
