@@ -3,6 +3,8 @@ import requests
 import schedule
 import time
 import logging
+from datetime import datetime
+import pytz
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -16,6 +18,9 @@ API_URL = os.getenv('API_URL')
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Set timezone to Asia/Tehran
+timezone = pytz.timezone('Asia/Tehran')
+
 # Function to send a message to Telegram
 def send_message(message):
     try:
@@ -28,6 +33,10 @@ def send_message(message):
             logging.error(f"Failed to send message: {message}. Status code: {response.status_code}")
     except Exception as e:
         logging.error(f"Error sending message: {e}")
+
+# Function to get current time in the correct timezone
+def get_current_time():
+    return datetime.now(timezone)
 
 # Meal reminder functions
 def remind_meal_1():
