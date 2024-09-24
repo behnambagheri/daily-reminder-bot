@@ -3,8 +3,6 @@ import requests
 import schedule
 import time
 import logging
-from datetime import datetime
-import pytz
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -14,9 +12,6 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 CHAT_ID = os.getenv('CHAT_ID')
 API_URL = os.getenv('API_URL')
-
-# Define the timezone (e.g., Asia/Tehran)
-timezone = pytz.timezone('Asia/Tehran')
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -34,41 +29,30 @@ def send_message(message):
     except Exception as e:
         logging.error(f"Error sending message: {e}")
 
-# Custom function to check if the current time matches the scheduled time
-def is_time_correct(schedule_time):
-    now = datetime.now(timezone)
-    return now.strftime('%H:%M') == schedule_time
-
 # Meal reminder functions
 def remind_meal_1():
-    if is_time_correct("12:00"):
-        logging.info("Reminding for first meal (1 hour before).")
-        send_message("🍽 یک ساعت تا اولین وعده غذایی شما باقی مانده است. آماده شوید! (تخم مرغ نیمرو و بیکن)")
+    logging.info("Reminding for first meal (1 hour before).")
+    send_message("🍽 یک ساعت تا اولین وعده غذایی شما باقی مانده است. آماده شوید! (تخم مرغ نیمرو و بیکن)")
 
 def meal_1_time():
-    if is_time_correct("13:00"):
-        logging.info("It's time for the first meal.")
-        send_message("🍽 زمان اولین وعده غذایی! (تخم مرغ نیمرو و بیکن)")
+    logging.info("It's time for the first meal.")
+    send_message("🍽 زمان اولین وعده غذایی! (تخم مرغ نیمرو و بیکن)")
 
 def remind_meal_2():
-    if is_time_correct("16:00"):
-        logging.info("Reminding for second meal (1 hour before).")
-        send_message("🍽 یک ساعت تا دومین وعده غذایی شما باقی مانده است. آماده شوید! (مرغ گریل شده و سبزیجات)")
+    logging.info("Reminding for second meal (1 hour before).")
+    send_message("🍽 یک ساعت تا دومین وعده غذایی شما باقی مانده است. آماده شوید! (مرغ گریل شده و سبزیجات)")
 
 def meal_2_time():
-    if is_time_correct("17:00"):
-        logging.info("It's time for the second meal.")
-        send_message("🍽 زمان دومین وعده غذایی! (مرغ گریل شده و سبزیجات)")
+    logging.info("It's time for the second meal.")
+    send_message("🍽 زمان دومین وعده غذایی! (مرغ گریل شده و سبزیجات)")
 
 def remind_meal_3():
-    if is_time_correct("20:00"):
-        logging.info("Reminding for third meal (1 hour before).")
-        send_message("🍽 یک ساعت تا سومین وعده غذایی شما باقی مانده است. آماده شوید! (ماهی سالمون و آووکادو)")
+    logging.info("Reminding for third meal (1 hour before).")
+    send_message("🍽 یک ساعت تا سومین وعده غذایی شما باقی مانده است. آماده شوید! (ماهی سالمون و آووکادو)")
 
 def meal_3_time():
-    if is_time_correct("21:00"):
-        logging.info("It's time for the third meal.")
-        send_message("🍽 زمان سومین وعده غذایی! (ماهی سالمون و آووکادو)")
+    logging.info("It's time for the third meal.")
+    send_message("🍽 زمان سومین وعده غذایی! (ماهی سالمون و آووکادو)")
 
 # Water and coffee reminder functions
 def remind_water():
@@ -76,36 +60,30 @@ def remind_water():
     send_message("💧 لطفاً آب بنوشید و بدن خود را هیدراته نگه دارید.")
 
 def remind_coffee():
-    if is_time_correct("10:00"):
-        logging.info("Reminding to have coffee.")
-        send_message("☕️ وقت نوشیدن قهوه است!")
+    logging.info("Reminding to have coffee.")
+    send_message("☕️ وقت نوشیدن قهوه است!")
 
 # Supplement reminder functions
 def remind_vitamin_c():
-    if is_time_correct("09:30"):
-        logging.info("Reminding to take Vitamin C.")
-        send_message("💊 لطفاً قرص جوشان ویتامین C خود را مصرف کنید.")
+    logging.info("Reminding to take Vitamin C.")
+    send_message("💊 لطفاً قرص جوشان ویتامین C خود را مصرف کنید.")
 
 def remind_magnesium():
-    if is_time_correct("14:00"):
-        logging.info("Reminding to take Magnesium.")
-        send_message("💊 لطفاً قرص جوشان منیزیم خود را مصرف کنید.")
+    logging.info("Reminding to take Magnesium.")
+    send_message("💊 لطفاً قرص جوشان منیزیم خود را مصرف کنید.")
 
 def remind_vitamin_d():
-    if is_time_correct("19:00"):
-        logging.info("Reminding to take Vitamin D.")
-        send_message("💊 لطفاً قرص ویتامین D خود را مصرف کنید.")
+    logging.info("Reminding to take Vitamin D.")
+    send_message("💊 لطفاً قرص ویتامین D خود را مصرف کنید.")
 
 # Sleep and wake-up reminder functions
 def remind_sleep():
-    if is_time_correct("00:00"):
-        logging.info("Reminding to go to sleep.")
-        send_message("🛌 وقت خواب است. لطفاً ساعت 12 شب بخوابید.")
+    logging.info("Reminding to go to sleep.")
+    send_message("🛌 وقت خواب است. لطفاً ساعت 12 شب بخوابید.")
 
 def remind_wake_up():
-    if is_time_correct("07:00"):
-        logging.info("Reminding to wake up.")
-        send_message("⏰ وقت بیدار شدن است! لطفاً ساعت 7 صبح بیدار شوید.")
+    logging.info("Reminding to wake up.")
+    send_message("⏰ وقت بیدار شدن است! لطفاً ساعت 7 صبح بیدار شوید.")
 
 # Schedule reminders
 schedule.every().day.at("12:00").do(remind_meal_1)
